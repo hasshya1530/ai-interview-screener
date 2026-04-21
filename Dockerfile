@@ -35,10 +35,12 @@ COPY --from=frontend-build /app/frontend/dist ./frontend/dist
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# 👉 IMPORTANT: matches your code
+# ✅ Correct ENV
 ENV PORT=8000
+ENV NODE_ENV=production
 
+# ✅ Expose Render port
 EXPOSE 10000
 
-# Start both
-CMD sh -c "node backend/dist/server.js & nginx -g 'daemon off;'"
+# ✅ Start both services (important override)
+CMD sh -c "PORT=8000 node backend/dist/server.js & nginx -g 'daemon off;'"
